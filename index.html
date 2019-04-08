@@ -50,9 +50,9 @@
             oldrotation = 0,
             picked = 100000,
             oldpick = [],
-            color = d3.scale.category20();//category20c()
-            //randomNumbers = getRandomNumbers();
+            color = d3.scale.category20();
 
+        var imgurl = "http://www.novosti.rs/upload/images/2019//02/21/Tan2019-2-21_104049530_0.jpg"
         var data = [
                     {
 						"label":"Basket balija",
@@ -65,13 +65,13 @@
 					},
                     {
 						"label":"Ponosno kopile", 
-						"value":1,
+						"value":2,
 						"question":`Kao Dzon Snow, Ramsey ili Tyrion iz GOT-a….definitivno kao Tyrion.
 						Ti si kopile koje je zasluzeno doslo na ocev presto.`
 					},
                     {
 						"label":"Jebe mi se tacno Vucic", 
-						"value":1,
+						"value":3,
 						"question":`Neki bi rekli da namestas naocare, ali ne, tebi je pun k svega.
 						Non stop radis za narod. Povecavas broj fontana, smanjujes penzije,
 						odrzavas savrsen balans u drzavi koju su do pre 7 godina unistili oni zuti.
@@ -81,7 +81,7 @@
 					},
                     {
 						"label":"Cyclops",
-						"value":1,
+						"value":4,
 						"question":`Poput mocnog X-MAN heroja Cyclops-a, imas moc da ispucavas laser kroz oci.
 						Medjutim ne mozes da kontrolises te lasere bez svojih specijanih naocara.
 						Isto kao sto se Cyclops bori za mir i ravnopravnost izmedju ljudi i mutanata
@@ -89,7 +89,7 @@
 					},
 					{
 						"label":"Srecan Vucic", 
-						"value":1,
+						"value":5,
 						"question":`Neki bi rekli po slici da i nisi nesto srecan, ali naprotiv.
 						Nakon svakog dana napora obilazenjem naroda Srbije,
 						kontinuiranim citanjem 500+ strana dnevno, ne spavanja nocima od brige....
@@ -99,23 +99,23 @@
 					},
 					{
 						"label":"Ponosni Vucic",
-						"value":1,
+						"value":6,
 						"question":`Retki su ti dani, ali kad dodju srecan si 
 						zato sto znas da sav taj trud nije bio uzaludan.`
 					},
 					{
 						"label":"Odabrani Vucic",
-						"value":1,
+						"value":7,
 						"question":`U trenucima kada ti se Gospod javlja, ti pazljivo slusas.`
 					},
 					{
 						"label":"Sef obezbedjenja Vucic",
-						"value":1,
+						"value":8,
 						"question":`Ono kad covek mora da vodi drzavu i istovremeno da bude sam svoj telohranitelj.`
 					},
 					{
 						"label":"Vucic Belic",
-						"value":1,
+						"value":9,
 						"question":`Zima nije tvoje doba, savrseno si svestan da svaka akcija ima svoju reakciju.
 						Dok ostali uzivaju u zimskim carolijama, ti razmisljas kako ces odbraniti drzavu 
 						od poplava koje nastoje kad se taj sneg otopi.`
@@ -212,6 +212,8 @@
                     d3.select("#question h2")
                         .text(data[picked].question);
 
+                    imgurl = data[picked].value;
+
                     oldrotation = rotation;
                 
                     container.on("click", spin);
@@ -225,6 +227,31 @@
             .attr("d", "M-" + (r*.15) + ",0L0," + (r*.05) + "L0,-" + (r*.05) + "Z")
             .style({"fill":"black"});
 
+        var defs = svg.append("defs").attr("id", "imgdefs");
+
+        var catpattern = defs.append("pattern")
+                        .attr("id", "catpattern")
+                        .attr("height", 1)
+                        .attr("width", 1)
+                        .attr("x", "0")
+                        .attr("y", "0");
+
+        catpattern.append("image")
+            .attr("x", -130)
+            .attr("y", -220)
+            .attr("height", 640)
+            .attr("width", 480)
+            .attr("max-width", "100%")
+            .attr("max-height", "100%")
+            .attr("xlink:href", imgurl);
+
+        svg.append("circle")
+            .attr("r", 125)
+            .attr("cx", 230)
+            .attr("cy", 250)
+            .attr("fill", "url(#catpattern)");
+
+/*
         //draw spin circle
         container.append("circle")
             .attr("cx", 0)
@@ -240,7 +267,8 @@
             .text("SPIN")
             .style({"font-weight":"bold", "font-size":"30px"});
         
-        
+        */
+
         function rotTween(to) {
           var i = d3.interpolate(oldrotation % 360, rotation);
           return function(t) {
